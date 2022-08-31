@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from basicsr.utils.registry import ARCH_REGISTRY
 
 pretrain_model_url = {
-    'restoration': 'https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/codeformer.pth',
+    'restoration': 'https://github.com/andyderuyter/CodeFormer/releases/download/v0.1.0/codeformer.pth',
 }
 
 if __name__ == '__main__':
