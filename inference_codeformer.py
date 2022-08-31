@@ -21,8 +21,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
 
     parser.add_argument('--w', type=float, default=0.5, help='Balance the quality and fidelity')
-    parser.add_argument('--upscale', type=int, default=2, help='The final upsampling scale of the image. Default: 2')
+    parser.add_argument('--upscale', type=int, default=4, help='The final upsampling scale of the image. Default: 2')
     parser.add_argument('--test_path', type=str, default='./inputs/cropped_faces')
+    parser.add_argument('--suffix', type=str, default='out', help='Suffix of the restored image')
     parser.add_argument('--has_aligned', action='store_true', help='Input are cropped and aligned faces')
     parser.add_argument('--only_center_face', action='store_true', help='Only restore the center face')
     # large det_model: 'YOLOv5l', 'retinaface_resnet50'
@@ -52,15 +53,56 @@ if __name__ == '__main__':
         else:
             from basicsr.archs.rrdbnet_arch import RRDBNet
             from basicsr.utils.realesrgan_utils import RealESRGANer
-            model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=2)
+            model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
             bg_upsampler = RealESRGANer(
-                scale=2,
-                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.1/RealESRGAN_x2plus.pth',
+                scale=4,
+                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth',
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=40,
                 pre_pad=0,
                 half=True)  # need to set False in CPU mode
+
+    elif args.bg_upsampler == 'realesrnet':
+        if not torch.cuda.is_available():  # CPU
+            import warnings
+            warnings.warn('The unoptimized RealESRGAN is slow on CPU. We do not use it. '
+                          'If you really want to use it, please modify the corresponding codes.',
+                          category=RuntimeWarning)
+            bg_upsampler = None
+        else:
+            from basicsr.archs.rrdbnet_arch import RRDBNet
+            from basicsr.utils.realesrgan_utils import RealESRGANer
+            model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
+            bg_upsampler = RealESRGANer(
+                scale=4,
+                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/RealESRNet_x4plus.pth',
+                model=model,
+                tile=args.bg_tile,
+                tile_pad=40,
+                pre_pad=0,
+                half=True)  # need to set False in CPU mode
+    
+    elif args.bg_upsampler == 'anime':
+        if not torch.cuda.is_available():  # CPU
+            import warnings
+            warnings.warn('The unoptimized RealESRGAN is slow on CPU. We do not use it. '
+                          'If you really want to use it, please modify the corresponding codes.',
+                          category=RuntimeWarning)
+            bg_upsampler = None
+        else:
+            from basicsr.archs.rrdbnet_arch import RRDBNet
+            from basicsr.utils.realesrgan_utils import RealESRGANer
+            model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=6, num_grow_ch=32, scale=4)
+            bg_upsampler = RealESRGANer(
+                scale=4,
+                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth',
+                model=model,
+                tile=args.bg_tile,
+                tile_pad=40,
+                pre_pad=0,
+                half=True)  # need to set False in CPU mode
+
     else:
         bg_upsampler = None
 
@@ -161,7 +203,7 @@ if __name__ == '__main__':
 
         # save restored img
         if not args.has_aligned and restored_img is not None:
-            save_restore_path = os.path.join(result_root, 'final_results', f'{basename}.png')
+            save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
             imwrite(restored_img, save_restore_path)
 
     print(f'\nAll results are saved in {result_root}')
