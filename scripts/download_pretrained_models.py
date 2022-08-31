@@ -24,7 +24,7 @@ if __name__ == '__main__':
 
     file_urls = {
         'CodeFormer': {
-            'codeformer.pth': 'https://github.com/sczhou/andyderuyter/releases/download/v0.1.0/codeformer.pth'
+            'codeformer.pth': 'https://github.com/andyderuyter/CodeFormer/releases/download/v0.1.0/codeformer.pth'
         },
         'facelib': {
             # 'yolov5l-face.pth': 'https://github.com/sczhou/CodeFormer/releases/download/v0.1.0/yolov5l-face.pth',
