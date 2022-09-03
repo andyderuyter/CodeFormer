@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from basicsr.utils.registry import ARCH_REGISTRY
 
 torch.cuda.empty_cache()
-os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:64"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:32"
 
 
 pretrain_model_url = {
