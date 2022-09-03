@@ -32,6 +32,7 @@ if __name__ == '__main__':
     parser.add_argument('--draw_box', action='store_true')
     parser.add_argument('--bg_upsampler', type=str, default='None', help='background upsampler. Optional: realesrgan')
     parser.add_argument('--bg_tile', type=int, default=400, help='Tile size for background sampler. Default: 400')
+    parser.add_argument('--facefix', type=str, default='Yes', help='Set Yes or No to enable or disable Face Fix')
 
     args = parser.parse_args()
 
@@ -203,7 +204,11 @@ if __name__ == '__main__':
 
         # save restored img
         if not args.has_aligned and restored_img is not None:
-            save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
-            imwrite(restored_img, save_restore_path)
+            if args.facefix != "No":
+                save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
+                imwrite(restored_img, save_restore_path)
+            else:
+                save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
+                imwrite(bg_img, save_restore_path)
 
     print(f'\nAll results are saved in {result_root}')
