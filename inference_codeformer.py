@@ -204,11 +204,13 @@ if __name__ == '__main__':
 
         # save restored img
         if not args.has_aligned and restored_img is not None:
-            if args.facefix is "Yes":
+            if args.facefix == "Yes":
                 save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
                 imwrite(restored_img, save_restore_path)
-            else:
-                save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
+                print('Face restored.')
+            if args.facefix == "No":
+                save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_noface.png')
                 imwrite(bg_img, save_restore_path)
+                print('No face restored.')
 
     print(f'\nAll results are saved in {result_root}')
