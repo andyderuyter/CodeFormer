@@ -204,7 +204,7 @@ if __name__ == '__main__':
 
         # save restored img
         if not args.has_aligned and restored_img is not None:
-            if args.facefix != "No":
+            if args.facefix is "Yes":
                 save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
                 imwrite(restored_img, save_restore_path)
             else:
