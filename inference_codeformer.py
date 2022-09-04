@@ -37,11 +37,11 @@ if __name__ == '__main__':
     parser.add_argument('--bg_upsampler', type=str, default='None', help='background upsampler. Optional: realesrgan')
     parser.add_argument('--bg_tile', type=int, default=400, help='Tile size for background sampler. Default: 400')
     parser.add_argument('--facefix', type=str, default='Yes', help='Set Yes or No to enable or disable Face Fix')
-    parser.add_argument('--cuda_max_split_size' type=str, default="no", help='Set PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb to 64mb')
+    parser.add_argument('--cuda_max_split_size' type=str, default='No', help='Set PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb to 64mb')
 
     args = parser.parse_args()
 
-    if args.cuda_max_split_size == "yes"
+    if args.cuda_max_split_size == 'Yes'
         os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:64"
 
     # ------------------------ input & output ------------------------
