@@ -13,7 +13,7 @@ import torch.nn.functional as F
 from basicsr.utils.registry import ARCH_REGISTRY
 
 torch.cuda.empty_cache()
-os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:21"
+
 
 
 pretrain_model_url = {
@@ -37,8 +37,11 @@ if __name__ == '__main__':
     parser.add_argument('--bg_upsampler', type=str, default='None', help='background upsampler. Optional: realesrgan')
     parser.add_argument('--bg_tile', type=int, default=400, help='Tile size for background sampler. Default: 400')
     parser.add_argument('--facefix', type=str, default='Yes', help='Set Yes or No to enable or disable Face Fix')
+    parser.add_argument('--cuda_max_split_size' type=int, default=64, help='Value to set PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb to a certain value')
 
     args = parser.parse_args()
+
+    os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:{}".args.cuda_max_split_size
 
     # ------------------------ input & output ------------------------
     if args.test_path.endswith('/'):  # solve when path ends with /
