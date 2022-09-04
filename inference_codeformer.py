@@ -216,7 +216,7 @@ if __name__ == '__main__':
             # save restored img
             if not args.has_aligned and restored_img is not None:
                 if args.facefix == "Yes":
-                    save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}.png')
+                    save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}_x{args.upscale}.png')
                     imwrite(restored_img, save_restore_path)
                     print('Face restored.')
 
@@ -262,7 +262,7 @@ if __name__ == '__main__':
 
             bg_img = bg_upsampler.enhance(img, outscale=args.upscale)[0]
             # restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box)
-            save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_noface.png')
+            save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_noface_x{args.upscale}.png')
             imwrite(bg_img, save_restore_path)
             print('No face restored.')
 
