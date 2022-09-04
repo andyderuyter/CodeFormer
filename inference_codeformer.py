@@ -37,7 +37,6 @@ if __name__ == '__main__':
     parser.add_argument('--bg_upsampler', type=str, default='None', help='background upsampler. Optional: realesrgan')
     parser.add_argument('--bg_tile', type=int, default=400, help='Tile size for background sampler. Default: 400')
     parser.add_argument('--facefix', type=str, default='Yes', help='Set Yes or No to enable or disable Face Fix')
-    parser.add_argument('--face_upsample', action='store_true', help='face upsampler after enhancement.')
     parser.add_argument('--cuda_max_split_size', type=str, default='No', help='Set PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb to 64mb')
 
     args = parser.parse_args()
@@ -135,10 +134,6 @@ if __name__ == '__main__':
         # small det_model: 'YOLOv5n', 'retinaface_mobile0.25'
         if not args.has_aligned: 
             print(f'Using [{args.detection_model}] for face detection network.')
-        if args.bg_upsampler is not None: 
-            print(f'Background upsampling: True, Face upsampling: {args.face_upsample}')
-        else:
-            print('Background upsampling: False, Face upsampling: False')
         face_helper = FaceRestoreHelper(
             args.upscale,
             face_size=512,
@@ -202,10 +197,7 @@ if __name__ == '__main__':
                     bg_img = None
                 face_helper.get_inverse_affine(None)
                 # paste each restored face to the input image
-                if args.face_upsample and bg_upsampler is not None: 
-                    restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box, face_upsampler=bg_upsampler)
-                else:
-                    restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box)
+                restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box)
 
             # save faces
             for idx, (cropped_face, restored_face) in enumerate(zip(face_helper.cropped_faces, face_helper.restored_faces)):
