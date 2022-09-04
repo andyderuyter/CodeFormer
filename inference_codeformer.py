@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    if args.cuda_max_split_size == 'Yes'
+    if args.cuda_max_split_size == 'Yes':
         os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:64"
 
     # ------------------------ input & output ------------------------
@@ -261,7 +261,7 @@ if __name__ == '__main__':
             img = cv2.imread(img_path, cv2.IMREAD_COLOR)
 
             bg_img = bg_upsampler.enhance(img, outscale=args.upscale)[0]
-            restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box)
+            # restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box)
             save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_noface.png')
             imwrite(bg_img, save_restore_path)
             print('No face restored.')
