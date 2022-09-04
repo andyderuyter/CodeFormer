@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     args = parser.parse_args()
 
-    os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:{}".args.cuda_max_split_size
+    os.environ["PYTORCH_CUDA_ALLOC_CONF"]="max_split_size_mb:64"
 
     # ------------------------ input & output ------------------------
     if args.test_path.endswith('/'):  # solve when path ends with /
