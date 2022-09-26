@@ -67,7 +67,7 @@ if __name__ == '__main__':
             model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
             bg_upsampler = RealESRGANer(
                 scale=4,
-                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.0/RealESRGAN_x4plus.pth',
+                model_path='/content/gdrive/MyDrive/AI/weights/RealESRGAN_x4plus.pth',
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=40,
@@ -87,7 +87,7 @@ if __name__ == '__main__':
             model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=23, num_grow_ch=32, scale=4)
             bg_upsampler = RealESRGANer(
                 scale=4,
-                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/RealESRNet_x4plus.pth',
+                model_path='/content/gdrive/MyDrive/AI/weights/RealESRNet_x4plus.pth',
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=40,
@@ -107,7 +107,7 @@ if __name__ == '__main__':
             model = RRDBNet(num_in_ch=3, num_out_ch=3, num_feat=64, num_block=6, num_grow_ch=32, scale=4)
             bg_upsampler = RealESRGANer(
                 scale=4,
-                model_path='https://github.com/xinntao/Real-ESRGAN/releases/download/v0.2.2.4/RealESRGAN_x4plus_anime_6B.pth',
+                model_path='/content/gdrive/MyDrive/AI/weights/RealESRGAN_x4plus_anime_6B.pth',
                 model=model,
                 tile=args.bg_tile,
                 tile_pad=40,
