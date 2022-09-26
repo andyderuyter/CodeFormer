@@ -27,6 +27,7 @@ if __name__ == '__main__':
     parser.add_argument('--w', type=float, default=0.5, help='Balance the quality and fidelity')
     parser.add_argument('--upscale', type=int, default=4, help='The final upsampling scale of the image. Default: 2')
     parser.add_argument('--test_path', type=str, default='./inputs/cropped_faces')
+    parser.add_argument('--output_path', type=str, default='./results')
     parser.add_argument('--suffix', type=str, default='out', help='Suffix of the restored image')
     parser.add_argument('--has_aligned', action='store_true', help='Input are cropped and aligned faces')
     parser.add_argument('--only_center_face', action='store_true', help='Only restore the center face')
@@ -50,7 +51,7 @@ if __name__ == '__main__':
         args.test_path = args.test_path[:-1]
 
     w = args.w
-    result_root = f'results/{os.path.basename(args.test_path)}_{w}'
+    result_root = args.output_path
 
     # ------------------ set up background upsampler ------------------
     if args.bg_upsampler == 'realesrgan':
@@ -224,7 +225,7 @@ if __name__ == '__main__':
             # save restored img
             if not args.has_aligned and restored_img is not None:
                 if args.facefix == "Yes":
-                    save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_{args.w}_x{args.upscale}.png')
+                    save_restore_path = os.path.join(result_root, {args.bg_upsampler}, f'{basename}.png')
                     imwrite(restored_img, save_restore_path)
                     print('Face restored.')
 
@@ -270,7 +271,7 @@ if __name__ == '__main__':
 
             bg_img = bg_upsampler.enhance(img, outscale=args.upscale)[0]
             # restored_img = face_helper.paste_faces_to_input_image(upsample_img=bg_img, draw_box=args.draw_box)
-            save_restore_path = os.path.join(result_root, 'final_results', f'{basename}_{args.bg_upsampler}_noface_x{args.upscale}.png')
+            save_restore_path = os.path.join(result_root, f'{basename}.png')
             imwrite(bg_img, save_restore_path)
             print('No face restored.')
 
